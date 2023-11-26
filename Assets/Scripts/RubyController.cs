@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class RubyController : MonoBehaviour
 {
@@ -17,6 +20,7 @@ public class RubyController : MonoBehaviour
     float invincibleTimer;
 
     Animator animator;
+    SpriteRenderer spriteRenderer;
     Vector2 lookDirection = new Vector2(1,0);
 
     Rigidbody2D rigidbody2d;
@@ -30,6 +34,13 @@ public class RubyController : MonoBehaviour
     AudioSource audioSource;
     public AudioClip playerHurtClip;
     public AudioClip throwCogClip;
+
+    public int score;
+    public TextMeshProUGUI scoreText;
+    bool gameOver;
+
+    public GameObject youWin;
+    public GameObject youLose;
     
     // Start is called before the first frame update
     void Start()
@@ -40,6 +51,8 @@ public class RubyController : MonoBehaviour
         currentHealth = maxHealth;
 
         audioSource = GetComponent<AudioSource>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void PlaySound(AudioClip clip)
@@ -65,7 +78,7 @@ public class RubyController : MonoBehaviour
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", move.magnitude);
 
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire1") && !gameOver)
         {
             Launch();
         }
@@ -88,6 +101,18 @@ public class RubyController : MonoBehaviour
             invincibleTimer -= Time.deltaTime;
             if (invincibleTimer < 0)
                 isInvincible = false;
+        }
+
+        if (gameOver == true)
+        {
+            //spriteRenderer.enabled = false;
+            speed = 0;
+            isInvincible = true;
+
+            if (Input.GetKey(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // this loads the currently active scene
+            }
         }
     }
     
@@ -124,7 +149,24 @@ public class RubyController : MonoBehaviour
         }
         
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
-        UIHealthBar.instance.SetValue(currentHealth/ (float)maxHealth);
+        UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
+
+        if (currentHealth == 0)
+        {
+            youLose.SetActive(true);
+            gameOver = true;
+        }
+    }
+
+    public void ChangeScore(int scoreAmount)
+    {
+        score = score + scoreAmount;
+        scoreText.text = score.ToString();
+        print(score);
+        if (score == 4)
+        {        
+            youWin.SetActive(true);
+        }
     }
 
     void Launch()
@@ -135,4 +177,5 @@ public class RubyController : MonoBehaviour
         animator.SetTrigger("Launch");
         PlaySound(throwCogClip);
     }
+
 }
