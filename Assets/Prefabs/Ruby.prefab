@@ -102,15 +102,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
-  projectileForce: 300
+  projectileForce: 50
   speed: 3
   timeInvincible: 2
+  multishotTimer: 5
   projectilePrefab: {fileID: 8276083484270669575, guid: 31715370b22274949a258784b3cd613c, type: 3}
   healEffect: {fileID: 8448755955558143523, guid: 7bdf76bdee6a40a4f9bea30d5c6bf63c, type: 3}
+  upgradeEffect: {fileID: 8448755955558143523, guid: 5607ea994d78d704da82b2642437d49d, type: 3}
   damageEffect: {fileID: 8317875799101546991, guid: 8827502468791424f937f9e7ac630711, type: 3}
   playerHurtClip: {fileID: 8300000, guid: 9b1bb1f450b7d444fa4a8019d13519a7, type: 3}
   throwCogClip: {fileID: 8300000, guid: b2edfd40873655249ba0e01a5cf705be, type: 3}
+  winSound: {fileID: 8300000, guid: f293812b38fea754489ccd769611e3f6, type: 3}
   score: 0
+  scoreText: {fileID: 0}
+  youWin: {fileID: 0}
+  youLose: {fileID: 0}
 --- !u!50 &3603714856243048757
 Rigidbody2D:
   serializedVersion: 4

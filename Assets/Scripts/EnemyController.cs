@@ -5,8 +5,13 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public float speed;
+    public float hardSpeed;
+    public float hardHealth;
     public bool vertical;
     public float changeTime = 3.0f;
+    public bool hardEnemy;
+    public float health;
+    public AudioClip toughFixed;
 
     Rigidbody2D rigidbody2D;
     float timer;
@@ -18,12 +23,17 @@ public class EnemyController : MonoBehaviour
 
     private RubyController rubyController;
     
+    SpriteRenderer spriteRenderer;
+
     // Start is called before the first frame update
-    void Start()
+    void Start() //Hard Bot code done by Alex Martinez
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         timer = changeTime;
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        Color hardColor = new Color(1.0f,0.5f,0.5f,1);
+
 
         GameObject rubyControllerObject = GameObject.FindWithTag("RubyController");
 
@@ -44,9 +54,18 @@ public class EnemyController : MonoBehaviour
             print ("Cannot find GameController Script!");
 
         }
+
+        if (hardEnemy) //Hard Bot code done by Alex Martinez
+        {
+            health = 5;
+            speed = hardSpeed;
+            health = hardHealth;
+            changeTime = changeTime / 2;
+            spriteRenderer.color = hardColor;
+        }
     }
 
-    void Update()
+    void Update() //Hard Bot code done by Alex Martinez
     {
         //remember ! inverse the test, so if broken is true !broken will be false and return won’t be executed.
         if(!broken)
@@ -60,6 +79,18 @@ public class EnemyController : MonoBehaviour
         {
             direction = -direction;
             timer = changeTime;
+        }
+
+        if (health <= 0) //Hard Bot code done by Alex Martinez
+        {
+            broken = false;
+            rigidbody2D.simulated = false;
+            animator.SetTrigger("Fixed");
+            smokeEffect.Stop();
+            if (rubyController != null)
+            {
+                rubyController.ChangeScore(1);
+            }
         }
     }
     
@@ -100,15 +131,8 @@ public class EnemyController : MonoBehaviour
     }
     
     //Public because we want to call it from elsewhere like the projectile script
-    public void Fix()
+    public void Fix() //Hard Bot code done by Alex Martinez
     {
-        broken = false;
-        rigidbody2D.simulated = false;
-        animator.SetTrigger("Fixed");
-        smokeEffect.Stop();
-        if (rubyController != null)
-        {
-            rubyController.ChangeScore(1);
-        }
+        health -= 1;
     }
 }

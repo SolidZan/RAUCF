@@ -3,7 +3,18 @@ guid: 8fa4d1c1cab5cb149a38ec57c92775e7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - projectilePrefab: {instanceID: 0}
+  - healEffect: {instanceID: 0}
+  - upgradeEffect: {instanceID: 0}
+  - damageEffect: {instanceID: 0}
+  - playerHurtClip: {instanceID: 0}
+  - throwCogClip: {instanceID: 0}
+  - winSound: {instanceID: 0}
+  - loseSound: {instanceID: 0}
+  - scoreText: {instanceID: 0}
+  - youWin: {instanceID: 0}
+  - youLose: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
